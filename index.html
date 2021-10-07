@@ -1,0 +1,119 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Teko:wght@300;400&display=swap" rel="stylesheet">
+    <title>Scavenger Hunt for Denchi</title>
+    <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js">
+    </script>
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById("image");
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+        const classifier = ml5.imageClassifier
+            ("MobileNet", modelLoaded);
+
+        // When the model is loaded
+        function modelLoaded() {
+            console.log("Model Loaded!");
+        }
+
+        function predict() {
+            classifier.predict(document.getElementById("image"),
+                function (err, results) {
+                    //DISPLAY RESULTS
+                    console.log(results[0].label);
+                    if (results[0].label.includes("church") || results[0].label.includes("palace")) {
+                        document.getElementById('row-3').classList.add("bg-success");
+                    }
+                    else if(results[0].label.includes("chime") || results[0].label.includes("bell")||results[0].label.includes("gong")){
+                      document.getElementById('row-2').classList.add("bg-success");
+                    }
+                    else if(results[0].label.includes("consomme") || results[0].label.includes("soup")||results[0].label.includes("bowl")){
+                      document.getElementById('row-1').classList.add("bg-success");
+                    }
+                    else if(results[0].label.includes("tram") || results[0].label.includes("streetcar")||results[0].label.includes("trolley")){
+                      document.getElementById('row-4').classList.add("bg-success");
+                    }
+                    else if(results[0].label.includes("flag") || results[0].label.includes("window shade")||results[0].label.includes("pole")){
+                      document.getElementById('row-5').classList.add("bg-success");
+                    }
+                    else {
+                        image.src = "fail.jpg";
+                    }
+
+                });
+        }
+
+    </script>
+</head>
+
+<body id="body" class="bg-dark text-light ">
+    <center >
+        <h1 id="title" class="h1 display-3" >Fun Time Quest</h1>
+        <b class="b" id="text">
+            Take a photo of the objective and submit it
+        </b>
+        </br>
+        <img  src="upload.png" class="img-fluid" alt="" id="image" width="630px" height="400px" />
+        </br></br>
+        
+        <input type="file" class="btn btn-danger" accept="image/*" onchange="loadFile(event)" name="image" id="file" />
+        <br>
+        <br>
+        <button onclick="predict()" class="btn btn-danger">Check</button>
+        <br>
+        <br>
+        <table class="table table-dark w-auto p-3">
+            <thead class="bg-danger border border-danger">
+              <tr>
+                <th scope="col">Objective</th>
+                <th scope="col">Coordinates</th>
+                <th scope="col">Google Maps</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row-1">
+                <td>Creme Soup</td>
+                <td>???</td>
+                <td><a href="https://www.google.com/search?q=supa+bar+sofia&oq=supa+bar+sofia&aqs=chrome..69i57.2194j0j9&sourceid=chrome&ie=UTF-8" target="_blank">
+                  Go</a></td>
+              </tr>
+              <tr id="row-2">
+                <td>The Bells</td>
+                <td>23.3791983, 42.6184369</td>
+                <td><a href="https://www.google.com/maps/dir/42.6728295,23.2781873/the+bells+sofia/@42.6525707,23.2497338,12z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x40aa81294e812f13:0x1aad864a54e94b5d!2m2!1d23.3791983!2d42.6184369" target="_blank">
+                  Go</a></td>
+              </tr>
+              <tr id="row-3"> 
+                <td>St. Sofia Church</td>
+                <td>23.3311473, 42.6965555</td>
+                <td><a href="https://www.google.com/maps/dir/42.6728295,23.2781873/%D1%81%D0%B2%D0%B5%D1%82%D0%B0+%D1%81%D0%BE%D1%84%D0%B8%D1%8F/@42.6891888,23.2717794,13z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x40aa8570fd90e65b:0xf438944892749af8!2m2!1d23.3311473!2d42.6965555" target="_blank">
+                  Go</a></td>
+              </tr>
+              <tr id="row-4">
+                <td>Tram</td>
+                <td>???</td>
+                <td><a></a></td>
+              </tr>
+              <tr id="row-5">
+                <td>Earth and Men Museum</td>
+                <td>42.6800406, 23.3208188</td>
+                <td><a href="https://www.google.com/maps/place/%D0%9D%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%B5%D0%BD+%D0%BC%D1%83%D0%B7%D0%B5%D0%B9+%E2%80%9E%D0%97%D0%B5%D0%BC%D1%8F%D1%82%D0%B0+%D0%B8+%D1%85%D0%BE%D1%80%D0%B0%D1%82%D0%B0%E2%80%9C/@42.6827844,23.3197523,15z/data=!4m5!3m4!1s0x0:0xadad6d110dec3cf4!8m2!3d42.6800406!4d23.3208188">
+                  Go</a></td>
+              </tr>
+            </tbody>
+          </table>
+    </center>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>
